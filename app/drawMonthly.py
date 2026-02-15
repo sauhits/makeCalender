@@ -1,10 +1,13 @@
 from PIL import Image, ImageDraw, ImageFont
 import calendar, os
 from drawBaseImg import makeBaseCalender
+from drawDescription import addDescription
 
 
-def draw_calender(year: int, month: int):
+# ベースイメージを作成して日付と月を書き込む
+def drawCalender(year: int, month: int, taskDict: dict, descriptionDict: dict):
     baseFilePath: str = "./img/calender_base.jpg"
+    saveFilePath: str = "./img/calender" + str(year) + "-" + str(month) + ".jpg"
     im: Image
     if os.path.isfile(baseFilePath):
         im = Image.open(baseFilePath)
@@ -31,8 +34,21 @@ def draw_calender(year: int, month: int):
                     (0, 0, 0),
                     font=font,
                 )
+                if n in taskDict:
+                    draw.text(
+                        (x_value, y_value + 20),
+                        str(taskDict.get(n)),
+                        (0, 0, 0),
+                        font=font,
+                    )
             x_value += 100
         x_value: int = 20
         y_value += 100
 
-    im.save("./img/calender" + str(year) + "-" + str(month) + ".jpg", quality=95)
+    im.save(saveFilePath, quality=95)
+    addDescription(saveFilePath, descriptionDict)
+
+
+di = {5: "ごみ捨て", 12: "ごみ捨て", 19: "ごみ捨て", 26: "ごみ捨て"}
+di2 = {5: "プラゴミ", 12: "資源ごみ", 26: "燃えるゴミ"}
+drawCalender(2026, 2, di, di2)
