@@ -5,27 +5,25 @@ from drawDescription import addDescription
 
 
 # ベースイメージを作成して日付と月を書き込む
-def drawCalender(year: int, month: int, taskDict: dict, descriptionDict: dict):
-    baseFilePath: str = "./img/calender_base.jpg"
-    saveFilePath: str = "./img/calender" + str(year) + "-" + str(month) + ".jpg"
-    im: Image
-    if os.path.isfile(baseFilePath):
-        im = Image.open(baseFilePath)
-    else:
-        makeBaseCalender()
-        im = Image.open(baseFilePath)
+async def drawCalender(
+    year: int, month: int, task_dict: dict[int, str], description_dict: dict[int, str]
+):
+    base_file_path: str = "./img/calender_base.jpg"
+    save_file_path: str = "./img/calender" + str(year) + "-" + str(month) + ".jpg"
+    makeBaseCalender()
+    im: Image = Image.open(base_file_path)
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 12)
-    titleFont = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
+    title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
 
-    draw.text((285, 10), str(month), (0, 0, 0), font=titleFont)
+    draw.text((285, 10), str(month), (0, 0, 0), font=title_font)
 
     calendar.setfirstweekday(6)
-    dateList: list = calendar.monthcalendar(year, month)
+    date_list: list[list[int]] = calendar.monthcalendar(year, month)
     x_value: int = 20
     y_value: int = 220
 
-    for i in dateList:
+    for i in date_list:
         for n in i:
             if n != 0:
                 draw.text(
@@ -34,21 +32,17 @@ def drawCalender(year: int, month: int, taskDict: dict, descriptionDict: dict):
                     (0, 0, 0),
                     font=font,
                 )
-                if n in taskDict:
+                if n in task_dict:
                     draw.text(
                         (x_value, y_value + 20),
-                        str(taskDict.get(n)),
+                        str(task_dict.get(n)),
                         (0, 0, 0),
                         font=font,
                     )
             x_value += 100
-        x_value: int = 20
+        x_value = 20
         y_value += 100
 
-    im.save(saveFilePath, quality=95)
-    addDescription(saveFilePath, descriptionDict)
-
-
-di = {5: "ごみ捨て", 12: "ごみ捨て", 19: "ごみ捨て", 26: "ごみ捨て"}
-di2 = {5: "プラゴミ", 12: "資源ごみ", 26: "燃えるゴミ"}
-drawCalender(2026, 2, di, di2)
+    im.save(save_file_path, quality=95)
+    addDescription(save_file_path, description_dict)
+    return save_file_path

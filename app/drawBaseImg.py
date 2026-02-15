@@ -40,30 +40,31 @@ def makeBaseCalender():
     #     outline=(0, 0, 0),
     # )
 
-    titleFont = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 50)
+    title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 50)
 
-    draw.text((35, 130), "日", (0, 0, 0), font=titleFont)
-    draw.text((135, 130), "月", (0, 0, 0), font=titleFont)
-    draw.text((235, 130), "火", (0, 0, 0), font=titleFont)
-    draw.text((335, 130), "水", (0, 0, 0), font=titleFont)
-    draw.text((435, 130), "木", (0, 0, 0), font=titleFont)
-    draw.text((535, 130), "金", (0, 0, 0), font=titleFont)
-    draw.text((635, 130), "土", (0, 0, 0), font=titleFont)
+    draw.text((35, 130), "日", (0, 0, 0), font=title_font)
+    draw.text((135, 130), "月", (0, 0, 0), font=title_font)
+    draw.text((235, 130), "火", (0, 0, 0), font=title_font)
+    draw.text((335, 130), "水", (0, 0, 0), font=title_font)
+    draw.text((435, 130), "木", (0, 0, 0), font=title_font)
+    draw.text((535, 130), "金", (0, 0, 0), font=title_font)
+    draw.text((635, 130), "土", (0, 0, 0), font=title_font)
 
-    titleFont = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
-    draw.text((385, 10), "月", (0, 0, 0), font=titleFont)
+    title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
+    draw.text((385, 10), "月", (0, 0, 0), font=title_font)
 
-    # draw.text((285, 10), "01", (0, 0, 0), font=titleFont)
+    # draw.text((285, 10), "01", (0, 0, 0), font=title_font)
 
-    titleFont = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 12)
-    # draw.text((20, 220), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
-    # draw.text((20, 240), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度,1行20px
-    # draw.text((120, 320), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
-    # draw.text((220, 420), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
-    # draw.text((320, 520), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
-    # draw.text((420, 620), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
-    # draw.text((520, 720), "あいうえおかき", (0, 0, 0), font=titleFont)  # 7文字程度
+    title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 12)
+    # draw.text((20, 220), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
+    # draw.text((20, 240), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度,1行20px
+    # draw.text((120, 320), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
+    # draw.text((220, 420), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
+    # draw.text((320, 520), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
+    # draw.text((420, 620), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
+    # draw.text((520, 720), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
 
     im.save("./img/calender_base.jpg", quality=95)
+
 
 makeBaseCalender()
