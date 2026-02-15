@@ -1,2 +1,2 @@
-# HTML2PNG
-htmlを投げるとpngで返すapiサーバです
+# post Calender
+指定した年と月，タスクリストについてカレンダーを生成してbase4エンコードして返します．
