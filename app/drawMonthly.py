@@ -44,5 +44,6 @@ async def drawCalender(
         y_value += 100
 
     im.save(save_file_path, quality=95)
+    os.remove(base_file_path)
     addDescription(save_file_path, description_dict)
     return save_file_path

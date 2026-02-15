@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from drawMonthly import drawCalender
-import base64
+import base64, os
 
 
 class Tasks(BaseModel):
@@ -14,17 +14,6 @@ class CalenderRequest(BaseModel):
     year: int
     month: int
     tasks: list[Tasks]
-
-
-# 受けとったjsonをリストにする
-json: CalenderRequest = {
-    "year": 2026,
-    "month": 2,
-    "tasks": [
-        {"day": 18, "title": "卒論締切", "description": "4年の卒論締切18時"},
-        {"day": 3, "title": "飲み会", "description": ""},
-    ],
-}
 
 
 app = FastAPI()
@@ -46,6 +35,7 @@ async def makeCalender(calender_request: CalenderRequest):
         image_data: bytes = f.read()
 
     encoded: bytes = base64.b64encode(image_data)
+    os.remove(file_path)
     response: list = []
     if file_path != "":
         response.append({"res": "ok", "base64": encoded})

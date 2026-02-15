@@ -65,6 +65,3 @@ def makeBaseCalender():
     # draw.text((520, 720), "あいうえおかき", (0, 0, 0), font=title_font)  # 7文字程度
 
     im.save("./img/calender_base.jpg", quality=95)
-
-
-makeBaseCalender()
