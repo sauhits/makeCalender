@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header, status, Depends
 from pydantic import BaseModel
 from drawMonthly import drawCalender
 import base64, io
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import APIKeyHeader
+from auth import verify_token
 
 
 class Tasks(BaseModel):
@@ -17,7 +19,29 @@ class CalenderRequest(BaseModel):
     tasks: list[Tasks]
 
 
-app = FastAPI()
+app = FastAPI(
+    title="make calender api",
+    version="1.0.0",
+    openapi_tags=[
+        {
+            "name": "year",
+            "description": "年の指定:2000-2030",
+            "name": "month",
+            "description": "月の指定:1-12",
+            "name": "tasks",
+            "description": "予定の指定",
+        },
+        {
+            "name": "day",
+            "description": "日の指定:1-31",
+            "name": "title",
+            "description": "予定のタイトル:<7",
+            "name": "description",
+            "description": "予定の詳細:<30",
+        },
+    ],
+    dependencies=[Depends(verify_token)],
+)
 
 origins = [
     "https://sauhits.github.io",
@@ -44,6 +68,7 @@ async def makeCalender(calender_request: CalenderRequest):
         raise HTTPException(status_code=400, detail="year must be 2000–2030")
     if not (1 <= calender_request.month <= 12):
         raise HTTPException(status_code=400, detail="month must be 1-12")
+
     task_dict: dict[int, str] = await makeTaskDict(calender_request.tasks)
     description_dict: dict[int, str] = await makeDescriptionDict(calender_request.tasks)
     tmp_byte = io.BytesIO()

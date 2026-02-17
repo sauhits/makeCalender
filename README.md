@@ -59,6 +59,7 @@
 curl -X 'POST' \
   'http://localhost:8000/calender/' \
   -H 'accept: application/json' \
+  -H 'Authorization: expected_token' \
   -H 'Content-Type: application/json' \
   -d '{
   "year": 2026,
