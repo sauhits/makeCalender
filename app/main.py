@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from drawMonthly import drawCalender
-import base64, os, io
+import base64, io
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class Tasks(BaseModel):
@@ -18,6 +19,19 @@ class CalenderRequest(BaseModel):
 
 app = FastAPI()
 
+origins = [
+    "https://sauhits.github.io",
+    "http://localhost:8000",  # ローカル開発用
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 async def read_root():
@@ -27,10 +41,9 @@ async def read_root():
 @app.post("/calender")
 async def makeCalender(calender_request: CalenderRequest):
     if not (2000 <= calender_request.year <= 2030):
-        raise HTTPException(status_code=404, detail="year must be 2000–2030")
+        raise HTTPException(status_code=400, detail="year must be 2000–2030")
     if not (1 <= calender_request.month <= 12):
-        raise HTTPException(status_code=404, detail="month must be 1-12")
-    
+        raise HTTPException(status_code=400, detail="month must be 1-12")
     task_dict: dict[int, str] = await makeTaskDict(calender_request.tasks)
     description_dict: dict[int, str] = await makeDescriptionDict(calender_request.tasks)
     tmp_byte = io.BytesIO()
@@ -54,6 +67,8 @@ async def makeCalender(calender_request: CalenderRequest):
 async def makeTaskDict(task_list: list[Tasks]):
     task_dict: dict[int, str] = {}
     for task in task_list:
+        if 1 <= task.day <= 31:
+            raise HTTPException(status_code=400, detail="day must be 1-31")
         task_dict[task.day] = task.title
     return task_dict
 
@@ -61,5 +76,7 @@ async def makeTaskDict(task_list: list[Tasks]):
 async def makeDescriptionDict(task_list: list[Tasks]):
     description_dict: dict[int, str] = {}
     for task in task_list:
+        if 1 <= task.day <= 31:
+            raise HTTPException(status_code=400, detail="day must be 1-31")
         description_dict[task.day] = task.description
     return description_dict
