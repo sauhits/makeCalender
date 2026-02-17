@@ -67,7 +67,7 @@ async def makeCalender(calender_request: CalenderRequest):
 async def makeTaskDict(task_list: list[Tasks]):
     task_dict: dict[int, str] = {}
     for task in task_list:
-        if 1 <= task.day <= 31:
+        if not (1 <= task.day <= 31):
             raise HTTPException(status_code=400, detail="day must be 1-31")
         task_dict[task.day] = task.title
     return task_dict
@@ -76,7 +76,7 @@ async def makeTaskDict(task_list: list[Tasks]):
 async def makeDescriptionDict(task_list: list[Tasks]):
     description_dict: dict[int, str] = {}
     for task in task_list:
-        if 1 <= task.day <= 31:
+        if not (1 <= task.day <= 31):
             raise HTTPException(status_code=400, detail="day must be 1-31")
         description_dict[task.day] = task.description
     return description_dict
