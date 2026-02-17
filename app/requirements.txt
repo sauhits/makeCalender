@@ -1,4 +1,3 @@
-mangum
 fastapi
 uvicorn
 pydantic

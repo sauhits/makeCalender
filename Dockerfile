@@ -3,6 +3,7 @@ FROM python:3.14-slim
 WORKDIR /app
 
 COPY app/requirements.txt .
+COPY app/font/NotoSansJP-Regular.ttf app/font/
 RUN pip install -r requirements.txt
 
 COPY app/ .
