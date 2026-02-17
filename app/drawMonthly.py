@@ -8,10 +8,7 @@ from drawDescription import addDescription
 async def drawCalender(
     year: int, month: int, task_dict: dict[int, str], description_dict: dict[int, str]
 ):
-    base_file_path: str = "./img/calender_base.jpg"
-    save_file_path: str = "./img/calender" + str(year) + "-" + str(month) + ".jpg"
-    makeBaseCalender()
-    im: Image = Image.open(base_file_path)
+    im:Image=makeBaseCalender()
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 12)
     title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
@@ -43,7 +40,4 @@ async def drawCalender(
         x_value = 20
         y_value += 100
 
-    im.save(save_file_path, quality=95)
-    os.remove(base_file_path)
-    addDescription(save_file_path, description_dict)
-    return save_file_path
+    addDescription(im, description_dict)

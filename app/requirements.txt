@@ -1,4 +1,6 @@
+mangum
 fastapi
 uvicorn
 pydantic
 pillow
+pydantic_core

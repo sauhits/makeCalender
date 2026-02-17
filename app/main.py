@@ -24,20 +24,21 @@ async def read_root():
     return {"message": "Hello, World"}
 
 
-@app.post("/calender/")
+@app.post("/calender")
 async def makeCalender(calender_request: CalenderRequest):
     task_dict: dict[int, str] = await makeTaskDict(calender_request.tasks)
     description_dict: dict[int, str] = await makeDescriptionDict(calender_request.tasks)
-    file_path: str = await drawCalender(
+    await drawCalender(
         calender_request.year, calender_request.month, task_dict, description_dict
     )
-    with open(file_path, "rb") as f:
+    tmp_path = "/tmp/tmp.jpg"
+    with open(tmp_path, "rb") as f:
         image_data: bytes = f.read()
 
     encoded: bytes = base64.b64encode(image_data)
-    os.remove(file_path)
+    os.remove(tmp_path)
     response: list = []
-    if file_path != "":
+    if encoded != "":
         response.append({"res": "ok", "base64": encoded})
         return response
     response.append({"res": "ng"})
