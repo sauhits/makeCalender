@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from drawMonthly import drawCalender
-import base64, os
+import base64, os, io
 
 
 class Tasks(BaseModel):
@@ -28,15 +28,16 @@ async def read_root():
 async def makeCalender(calender_request: CalenderRequest):
     task_dict: dict[int, str] = await makeTaskDict(calender_request.tasks)
     description_dict: dict[int, str] = await makeDescriptionDict(calender_request.tasks)
+    tmp_byte = io.BytesIO()
     await drawCalender(
-        calender_request.year, calender_request.month, task_dict, description_dict
+        calender_request.year,
+        calender_request.month,
+        task_dict,
+        description_dict,
+        tmp_byte,
     )
-    tmp_path = "/tmp/tmp.jpg"
-    with open(tmp_path, "rb") as f:
-        image_data: bytes = f.read()
 
-    encoded: bytes = base64.b64encode(image_data)
-    os.remove(tmp_path)
+    encoded: bytes = base64.b64encode(tmp_byte.getvalue()).decode("utf-8")
     response: list = []
     if encoded != "":
         response.append({"res": "ok", "base64": encoded})

@@ -1,14 +1,18 @@
 from PIL import Image, ImageDraw, ImageFont
-import calendar, os
+import calendar
 from drawBaseImg import makeBaseCalender
 from drawDescription import addDescription
 
 
 # ベースイメージを作成して日付と月を書き込む
 async def drawCalender(
-    year: int, month: int, task_dict: dict[int, str], description_dict: dict[int, str]
+    year: int,
+    month: int,
+    task_dict: dict[int, str],
+    description_dict: dict[int, str],
+    tmp_byte,
 ):
-    im:Image=makeBaseCalender()
+    im: Image = makeBaseCalender()
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 12)
     title_font = ImageFont.truetype("./font/NotoSansJP-Regular.ttf", 70)
@@ -40,4 +44,4 @@ async def drawCalender(
         x_value = 20
         y_value += 100
 
-    addDescription(im, description_dict)
+    addDescription(im, description_dict, tmp_byte)
