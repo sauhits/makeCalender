@@ -69,6 +69,8 @@ async def makeTaskDict(task_list: list[Tasks]):
     for task in task_list:
         if not (1 <= task.day <= 31):
             raise HTTPException(status_code=400, detail="day must be 1-31")
+        if 7 < len(task.title):
+            raise HTTPException(status_code=400, detail="task title too long (MAX:7)")
         task_dict[task.day] = task.title
     return task_dict
 
@@ -78,5 +80,9 @@ async def makeDescriptionDict(task_list: list[Tasks]):
     for task in task_list:
         if not (1 <= task.day <= 31):
             raise HTTPException(status_code=400, detail="day must be 1-31")
+        if 30 < len(task.description):
+            raise HTTPException(
+                status_code=400, detail="task description too long (MAX:30)"
+            )
         description_dict[task.day] = task.description
     return description_dict
