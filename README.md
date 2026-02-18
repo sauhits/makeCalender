@@ -9,6 +9,7 @@
 
 # 📅make calender
 
+
 ## 目次
 
 - [🔧技術スタック](#-🔧技術スタック)
@@ -23,6 +24,9 @@
 </p>
 
 ## ⚙️仕様
+
+postするとカレンダー画像をbase64のバイト列で返します \
+Authキーは問い合わせください
 
 ### 🪜ディレクトリ構造
 
@@ -55,6 +59,7 @@
 </p>
 
 ### Curl
+
 ```bash
 curl -X 'POST' \
   'http://localhost:8000/calender/' \
@@ -73,8 +78,28 @@ curl -X 'POST' \
   ]
 }'
 ```
+お試し↓
+```bash
+curl -X 'POST' \
+  'https://calendar-api-service-406088920323.asia-northeast1.run.app/calender' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Nadvqnr4cou7rA3PlW/JAw==' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "year": 2026,
+  "month": 12,
+  "tasks": [
+    {
+      "day": 4,
+      "title": "string",
+      "description": "string"
+    }
+  ]
+}'
+```
 
 ### RequestBody-example
+
 ```json
 {
   "year": 2026,
@@ -90,14 +115,18 @@ curl -X 'POST' \
 ```
 
 ### Response-example
+
 #### Response Headers
+
 ```
- content-length: 88582 
- content-type: application/json 
- date: Sun,15 Feb 2026 17:44:34 GMT 
- server: uvicorn 
- ```
+ content-length: 88582
+ content-type: application/json
+ date: Sun,15 Feb 2026 17:44:34 GMT
+ server: uvicorn
+```
+
 #### Response Body
+
 ```json
 [
   {
@@ -106,10 +135,13 @@ curl -X 'POST' \
   }
 ]
 ```
+
 #### 生成画像
+
 <img style="width=100px" src="./app/img/example.png">
 
 ## 🚀How To Start
+
 ```bash
 cd makeCalender
 docker compose up -d --build
